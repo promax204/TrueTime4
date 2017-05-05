@@ -1,0 +1,6 @@
+{
+  "workingDir": "./temp/deploy/",
+  "account": "<!-- STORAGE ACCOUNT NAME -->",
+  "container": "truenew-2",
+  "accessKey": "<!-- ACCESS KEY -->"
+}
