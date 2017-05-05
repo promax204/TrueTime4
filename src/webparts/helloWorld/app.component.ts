@@ -12,8 +12,6 @@ import {
 
 import { TestComponent } from './test.component';
 import { BillingComponent } from './billing.component';
-//import * as appStyles from './app.component.css';
-import newStyles from './HelloWorld.module.scss';
 
 import { ProjectsService } from './projects.service';
 
@@ -104,9 +102,9 @@ a {
             Toggle Billing
         </button> 
 
-        <!--<button class="admin-button" (click)="log()">
+        <button class="admin-button" (click)="log()">
             Log Info
-        </button>--> 
+        </button>
 
         <!-- <button class="adminButton" (click)="deleteItems()">
             Delete my items 
@@ -156,8 +154,7 @@ export class AppComponent implements AfterViewInit {//.. us to call testComponen
         @Inject(UserService) public userService: UserService,
         @Inject(ListService) public listService: ListService,
         @Inject(WeekService) public weekService: WeekService) {
-        //console.log("Activate css:", appStyles);
-        console.log("activate new css", newStyles);
+
         console.log("app.compontent.ts", this);
     }
 

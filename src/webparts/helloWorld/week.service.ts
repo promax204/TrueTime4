@@ -32,7 +32,16 @@ export class WeekService {
         var date = dayOneOfThisYear;
         var weeks = []
 
-        while (date.getFullYear() === thisYear) {
+        console.log("date was ", date);
+        //set date the monday before its day.
+        while (date.getDay() !== 1) {
+            date.setDate(date.getDate()-1);
+        }
+        console.log("change to ", date);
+
+
+
+        while (date.getFullYear() !== thisYear+1) {
             var week = [];
             do {
                 var dateObj = new Date(date.getTime());
@@ -50,35 +59,44 @@ export class WeekService {
                 var dayCopy = new Date(date.getTime());
                 week.push(dayObject);
                 date.setDate(date.getDate() + 1);
-            } while (date.getDay() !== 1 && date.getFullYear() === thisYear); //goto
-            week = this.adjustWeek(week);
-            weeks.push(week);
+            } while (date.getDay() !== 1 && date.getFullYear() !== thisYear+1); //goto
+
+            console.log("week.length is ", week.length);
+            if (week.length === 7) {//goto
+                weeks.push(week);
+            }//goto
         }
         this.weeks = weeks;
+
     }
 
     public adjustWeek(week) {
-            /*
-            if (week.length < 7) {
-
-            }
-
-
-        let dummyWeek = [];
-        for (let name of this.dayNames) {
-            dummyWeek.push({
-                "dateAndMonth": "",
-                "isToday": false,
-                "dateObj": "",
-                "hours": 0,
-                "month": "",
-                "isLocked": false,
-                "dayName": name
-            });
-        }
-        */
         return week;
-    }
+        /*
+        if (week.length === 7) { return week}
+        else {
+            let dummyWeek = [];
+            for (let name of this.dayNames) {
+                dummyWeek.push({
+                    "dateAndMonth": "",
+                    "isToday": false,
+                    "dateObj": "",
+                    "hours": 0,
+                    "month": "",
+                    "isLocked": false,
+                    "dayName": name
+                });
+            }
+            
+            let someValidDateInThisWeek = "";
+            for (let day of week) {
+                dummyWeek[day.dateObj.getDay()] = day;
+                someValidDateInThisWeek = day.dateObj;
+            }
+            return dummyWeek;
+        } //else end    
+        */
+}
 
     public findAndMarkToday() {
         var today = new Date();
@@ -158,14 +176,14 @@ export class WeekService {
             this.setupWeeks(Number(this.year[2]));
             if (this.thisYear = Number(this.year[2])) { this.findAndMarkToday() }
             this.weekNumber = 0;
-            this.month = 0;
+            this.month = this.month = this.week()[0].month;//goto
         }
         else if (n < 0) { //decrement YEAR
 
             this.setupWeeks(Number(this.year[0]));
             if (this.thisYear = Number(this.year[0])) { this.findAndMarkToday() }
             this.weekNumber = this.weeks.length - 1;
-            this.month = 11;
+            this.month = this.month = this.week()[this.week().length-1].month;
         }
         this.setupWeekRange(this.week());
     }
