@@ -58,6 +58,7 @@ a {
 }
 .dropdown:hover .dropdown-content {
     display: block;
+    padding: 0px;
 }
 .dropdown {
     position: relative;
@@ -87,6 +88,7 @@ a {
 #reportConsultantAdmin{
     min-width: 125px;
     margin-left: 5px;
+    padding:0px!important;
 }
     `],
     template: ` 
