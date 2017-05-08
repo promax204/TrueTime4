@@ -10,4 +10,4 @@ gulp serve
 ```
 <br/>
 <h3>app overview: </h3>
-<img src="/stebra-consulting/TrueTime4/blob/master/coggle_screen.PNG" />
+<img src="/stebra-consulting/TrueTime4/blob/master/coggle_screen.PNG?raw=true" />
