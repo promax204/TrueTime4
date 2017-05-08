@@ -5,15 +5,11 @@
 
 ```bash
 npm install
-```
-<br/>
-```bash
 gulp trust-dev-cert
-```
-<br/>
-```bash
 gulp serve
 ```
 <br/>
+app overview: 
 
 
+<img src="" />
