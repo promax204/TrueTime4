@@ -9,7 +9,5 @@ gulp trust-dev-cert
 gulp serve
 ```
 <br/>
-app overview: 
-
-
-<img src="" />
+<h3>app overview: </h3>
+<img src="/stebra-consulting/TrueTime4/blob/master/coggle_screen.PNG" />
