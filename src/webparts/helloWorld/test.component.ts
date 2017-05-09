@@ -416,7 +416,9 @@ ul, li {
                 <button class="projectButton">+ New Row</button>
 
                 <ul class="dropdown-content" id="project">
-                    <li *ngFor="let project of projectsService.projects" (click)="selectItem(project)" >
+                    <li *ngFor="let project of projectsService.projects" 
+                        (click)="selectItem(project)" 
+                        [hidden]="project.hideProject === true">
                         {{ project.name }}
                     </li>
                 </ul>
