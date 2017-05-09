@@ -1,6 +1,11 @@
 <p>
     this project requires<a href="https://nodejs.org/en/download/"> node.js</a>
 </p>
+<p>
+    <a href="https://code.visualstudio.com/"> Visual Code editor</a>
+</p>
+
+
 
 
 ```bash
