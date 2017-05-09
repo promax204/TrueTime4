@@ -466,32 +466,17 @@ export class TestComponent implements OnInit {
 
         this.termService.getTermStores().then(termsRaw => {
             this.termService.organizeTerms(termsRaw);
-            this.userService.getCurrentUser().then(
-                (currentUserResponse) => {
-
-                    //if Admin wants to browse app as another User
+            
+            this.userService.getCurrentUser()
+                .then((currentUserResponse) => {
                     if (this.userService.impersonate
                         && this.userService.user !== undefined) {
                         currentUserResponse = this.userService.user.name;
-                       
                     }
-
-
                     this.userService.userId = currentUserResponse.Id;
-                    this.userService._getPermission(this.userService.userId).then(
-                        (permissionResponse) => {
-                            this.userService.permission = permissionResponse.value["0"].RoleTypeKind;
-                            if (this.userService.permission === 5) {
-                                this.userService.isAdmin = false;
-                            }
-                            else {
-                                this.userService.isKonsult = false;
-                            }
-                            //after terms are loaded, userId is defined...finally:
-                            this.loadWeek();
-                        });
+                    this.loadWeek();
                 });
-        })
+        }) 
     }
 
     public loadWeek() {

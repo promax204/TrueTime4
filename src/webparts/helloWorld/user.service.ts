@@ -23,8 +23,21 @@ export class UserService {
         @Inject(ListService) public listService: ListService,
         @Inject(ProjectsService) public projectsService: ProjectsService,
         @Inject(WeekService) public weekService: WeekService) {
-        this.getAdmins();
+
+        /*
+        this.getCurrentUser().then(
+            (currentUserResponse) => {
+                if (this.impersonate && this.user !== undefined) {
+                    currentUserResponse = this.user.name;
+                }
+                this.userId = currentUserResponse.Id;
+            }
+        );
+        */
+
         this.getConsultants();
+        this.getAdmins();
+
     }
 
     public lockWeek(bool, saveChanges) {
@@ -129,24 +142,38 @@ export class UserService {
     }
 
 
-    public getAdmins(): Promise<any> {
-        var groupName = "TrueTimeAdmin ";
-        return window['context'].spHttpClient.get(
-            window['context'].pageContext.web.absoluteUrl + `/_api/web/sitegroups/getbyname('` + groupName + `')/users`,
-            SPHttpClient.configurations.v1)
-            .then((response: Response) => {
-                return response.json().then(
-                    (users) => {
-                        this.adminUsers = users.value;
-                        console.log("this.adminUsers", this.adminUsers);
-                        console.log("this.user", this.user);
-                        console.log("(users.value.indexOf(this.user))", (users.value.indexOf(this.user)));
-                        if (users.value.indexOf(this.user) !== -1) {
-                            console.log("\n \n \n current user is Admin!, \n \n \n ");
-                            this.isAdmin = true;
-                        }
-                    });
-            });
+    public getAdmins(): void {
+
+
+        this.getCurrentUser().then((response => {
+            this.user = response;
+            this.userId = response.Id
+
+            //
+            var groupName = "TrueTimeAdmin ";
+            let url = window['context'].pageContext.web.absoluteUrl + "/_api/web/sitegroups/getbyname('" + groupName + "')/users";
+            console.log("url", url);
+            window['context'].spHttpClient.get(
+                url,
+                SPHttpClient.configurations.v1)
+                .then((response: Response) => {
+                    response.json().then(
+                        (users) => {
+                            this.adminUsers = users.value;
+                            for (let user of this.adminUsers) {
+                                if (user.Id === this.userId && user.Id !== undefined) {
+                                    this.isAdmin = true;
+                                }
+                            }
+                        });
+                });
+            //
+
+        }))//getCurrentUser()
+
+
+
+        
     }
 
     public getConsultants(): Promise<any> {

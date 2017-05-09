@@ -155,8 +155,13 @@ export class AppComponent implements AfterViewInit {//.. us to call testComponen
         @Inject(ListService) public listService: ListService,
         @Inject(WeekService) public weekService: WeekService) {
 
-        window["log"] = this.log();
-        console.log("app.compontent.ts", this);
+        window["log"] = {
+            "weekService":this.weekService,
+            "projectsService":this.projectsService,
+            "userService": this.userService,
+            "app.component": this,
+        };
+        //console.log("app.compontent.ts", this);
     }
 
     public log() {
