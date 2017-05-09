@@ -468,7 +468,7 @@ export class TestComponent implements OnInit {
 
         this.termService.getTermStores().then(termsRaw => {
             this.termService.organizeTerms(termsRaw);
-            
+
             this.userService.getCurrentUser()
                 .then((currentUserResponse) => {
                     if (this.userService.impersonate
@@ -478,20 +478,14 @@ export class TestComponent implements OnInit {
                     this.userService.userId = currentUserResponse.Id;
                     this.loadWeek();
                 });
-        }) 
+        })
     }
 
     public loadWeek() {
+        this.hideProjects();
 
         //NEW WEEK WAY
         this.week = this.weekService.weeks[this.weekService.weekNumber];
-
-        //console.log("\n in loadWeek(), test.component");
-        //console.log("this.week", this.week);
-        //console.log("this.weekService.weekNumber", this.weekService.weekNumber);
-        //console.log("this.weekService.weeks[this.weekService.weekNumber]", this.weekService.weeks[this.weekService.weekNumber])
-
-
 
         //reset projects since it has data from another week
         this.projectsService.projects = undefined;
@@ -509,7 +503,10 @@ export class TestComponent implements OnInit {
         ).then(
             (items) => {
                 console.log("FETCHED ITEMS:", items);
-                if (items.value.length > 0) { this.updateView(items.value); }
+                if (items.value.length > 0) {
+                    this.updateView(items.value);
+                }
+                this.showProjects();
             }
             )
     }
@@ -540,16 +537,45 @@ export class TestComponent implements OnInit {
                 if (day !== undefined) {
                     day.hours = item.Hours;
                     day.isLocked = item.isLocked;
-                    if (day.isLocked) { weekIsLocked = true}
+                    if (day.isLocked) { weekIsLocked = true }
                 }
             }
         }
-        
+
         if (weekIsLocked) {
             var saveChanges = false;
             this.userService.lockWeek(true, saveChanges);
         }
-        
+
+
+    }
+    public hideProjects() { //only hide empty hours
+        for (let project of this.projectsService.projects) {
+            let sumHours = 0;
+            for (let day of project.week) {
+                sumHours += day.hours;
+            }
+            if (sumHours === 0) {project.hideProject = true;}
+        }
+    }
+    public showProjects() {
+        console.log("in showProjects()");
+        for (let project of this.projectsService.projects) {
+            let projectSumHours = 0;
+            //project.hideProject = true;
+            for (let day of project.week) {
+                projectSumHours += day.hours;
+                if (projectSumHours > 0) {
+                    console.log("found some hours")
+                }
+            }
+            console.log("(projectSumHours > 0 && projectSumHours !== undefined)", (projectSumHours > 0 && projectSumHours !== undefined));
+            if (projectSumHours > 0 && projectSumHours !== undefined) {
+                console.log("showing ", project.name);
+                project.hideProject = false;
+            }
+        }
+
     }
     public loadProjectsFromTerms(terms: any) { //insert terms+week = projects.
         for (let term of terms) {
@@ -569,7 +595,7 @@ export class TestComponent implements OnInit {
             var project: Project = term;
             this.projectsService.projects.push(project);
         }
-        
+
     }
 
     public gotoWeek() {
@@ -597,9 +623,9 @@ export class TestComponent implements OnInit {
 
     public deleteProject(project: Project) {
         project.hideProject = true;
-        for (let day of project.week) {
+        /*for (let day of project.week) {
             day.hours = 0;
-        }
+        }*/
     }
 
     public getSum(project) {

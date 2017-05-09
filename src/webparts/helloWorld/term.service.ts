@@ -103,7 +103,7 @@ export class TermService {
                 WssId: -1
             }
             
-            correctTerm.hideProject = false;
+            correctTerm.hideProject = true; //goto
 
 
 
