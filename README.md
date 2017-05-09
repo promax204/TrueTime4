@@ -10,8 +10,6 @@
 </p>
 
 
-
-
 ```bash
 npm install
 gulp trust-dev-cert
