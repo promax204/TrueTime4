@@ -45,7 +45,7 @@ export class WeekService {
                 var dateObj = new Date(date.getTime());
 
                 var dayObject = {
-                    "dateAndMonth": (date.getDate().toString() + " " + this.monthNames[date.getMonth()]),
+                    "dateAndMonth": (date.getDate().toString()),// + " " + this.monthNames[date.getMonth()]),
                     "isToday": false,
                     "dateObj": dateObj,
                     "hours": 0,

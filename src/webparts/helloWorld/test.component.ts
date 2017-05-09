@@ -148,7 +148,7 @@ filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
         float:right;
         text-align:center;
 }
-.year {
+.month-label {
     text-align: -webkit-center;
     margin-bottom: -10px;
     left: 70px;
@@ -347,8 +347,8 @@ ul, li {
             V
         </h2>
 
-        <div class="year" *ngIf="weekService.year[1] !== undefined">
-            {{ weekService.year[1]}}
+        <div class="month-label" *ngIf="weekService.month !== undefined">
+            {{ weekService.monthNamesLarge[weekService.month]}}
         </div>
 
         <div class = "dateBox">
