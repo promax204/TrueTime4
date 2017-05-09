@@ -9,7 +9,7 @@ import { SPHttpClient, ISPHttpClientOptions, SPHttpClientResponse } from '@micro
 export class UserService {
     public permission;
     public context: any;
-    public isAdmin: boolean = true;
+    public isAdmin: boolean = false;
     public userId: number;
     public isKonsult: boolean = true;
     public adminGroupId;
@@ -23,13 +23,8 @@ export class UserService {
         @Inject(ListService) public listService: ListService,
         @Inject(ProjectsService) public projectsService: ProjectsService,
         @Inject(WeekService) public weekService: WeekService) {
-
-        console.log("START user.service.ts", this);
-
         this.getAdmins();
         this.getConsultants();
-
-        console.log("END user.service.ts", this);
     }
 
     public lockWeek(bool, saveChanges) {
@@ -38,13 +33,10 @@ export class UserService {
                 if (day.month === this.weekService.month) {
                     day.isLocked = bool;
                 }
-
             }
-            //console.log("IN USERSERVICE this.projectsService.projects", this.projectsService.projects);
         }
         if (saveChanges) {
             //Notify admin
-            console.log("Min Save", saveChanges);
             this.notifyAdmin(
                 this.userId,
                 this.weekService.weekStart,
@@ -109,7 +101,7 @@ export class UserService {
     }
 
     public notifyAdmin(userId, weekStart: Date, weekEnd: Date): Promise<any> {
-        //console.log("in notifyAdmin()");
+
         var listName = "truetime-notification";
         //"Hello Admin, I just locked my week Feb 21 to 28
 
@@ -146,6 +138,13 @@ export class UserService {
                 return response.json().then(
                     (users) => {
                         this.adminUsers = users.value;
+                        console.log("this.adminUsers", this.adminUsers);
+                        console.log("this.user", this.user);
+                        console.log("(users.value.indexOf(this.user))", (users.value.indexOf(this.user)));
+                        if (users.value.indexOf(this.user) !== -1) {
+                            console.log("\n \n \n current user is Admin!, \n \n \n ");
+                            this.isAdmin = true;
+                        }
                     });
             });
     }
@@ -156,10 +155,10 @@ export class UserService {
             .then((response: Response) => {
                 return response.json().then(
                     (users) => {
-                        console.log("getConsultants(), users", users);
+                        //console.log("getConsultants(), users", users);
                         this.users = users.value;
                         for (let item of users) {
-                            console.log("UsersS", item);
+                            //console.log("UsersS", item);
                         }
                     });
             });

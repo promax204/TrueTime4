@@ -4,6 +4,8 @@
 <p>
     <a href="https://code.visualstudio.com/"> Visual    Code editor (not required)
     </a>
+</p>
+<p>
     <a "href=http://cmder.net/">
         alternative console editor (not required)
     </a>

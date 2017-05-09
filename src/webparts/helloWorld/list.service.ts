@@ -17,7 +17,6 @@ export class ListService {
   listName = "calendartest";
 
   constructor() {
-    console.log("list.service.ts", this);
    }
 
   public getListPermission(userId): Promise<any> {
@@ -44,7 +43,6 @@ export class ListService {
   public createListItem(day: Day, projectColumnValue, userId): Promise<any> {
 
     var url = `${this.context.pageContext.web.absoluteUrl}/english/_api/web/lists/GetByTitle('${this.listName}')/items?`;
-    console.log("MinprojectColumnValue ", projectColumnValue);
     var body: any = {}
 
     //Problem: Sharepoint converts our dateObj to time with hours offset(timezones). event then has wrong date
@@ -61,13 +59,6 @@ export class ListService {
     var dateAsString = `${year}-${month}-${dayDate}T12:00:00Z`;
     //example, "2017-03-27T12:00:00Z"
 
-    //console.log("day.dateObj", day.dateObj);
-
-    //console.log("dateAsString", dateAsString);
-
-
-    console.log("created item with userId", userId)
-
     body = {
       Title: "some text",
       Project: projectColumnValue,
@@ -81,10 +72,6 @@ export class ListService {
       
       
     };
-
-
-    console.log("red call, POST, body", body);
-
 
     const spOpts: ISPHttpClientOptions = {
       body: JSON.stringify(body)//`{ Title: 'Developer Workbench', BaseTemplate: 100 }`
@@ -119,21 +106,17 @@ export class ListService {
       weekStartInParam: weekStart
     }
 
-    ////console.log("in getMyWeeklyHours, dateHolder", dateHolder);
+
     var listName = "calendartest";
 
     //right way to specify date in filterQuery:          
     //'2016-03-26T09:59:32Z'
 
     //var start :any = new Date(weekStart);
-    ////console.log("before format, start", start);
     var startFormatted = weekStart.format("yyyy-MM-dd") + "T00:00:00Z";//Thh:mm:ssZ");
 
     //var end :any = new Date(weekEnd);
     var endFormatted = weekEnd.format("yyyy-MM-dd") + "T23:59:59Z";
-
-    ////console.log("in listService, startFormatted ", startFormatted);
-    ////console.log("in listService, endFormatted ", endFormatted);
 
     var filterQuery = `
         (EventDate ge datetime'${startFormatted}') and (EventDate le datetime'${endFormatted}')
@@ -143,7 +126,6 @@ export class ListService {
 
     var url = this.context.pageContext.web.absoluteUrl + `/english/_api/web/lists/GetByTitle('${listName}')/items?$filter=` + filterQuery;
 
-    console.log("getmyWeeklyHours url", url);
     return this.context.spHttpClient.get(url, SPHttpClient.configurations.v1)
       .then((response: Response) => {
       
@@ -177,7 +159,6 @@ export class ListService {
       .then((response: Response) => {
 
         let data = response.json();
-        console.log("data", data);
         return data;
 
       });

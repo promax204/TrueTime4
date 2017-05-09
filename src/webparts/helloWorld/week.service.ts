@@ -18,10 +18,10 @@ export class WeekService {
     public thisYear = new Date().getFullYear();
 
     constructor() {
-        console.log("START week.service.ts", this);
+
         this.setupWeeks(new Date().getFullYear()); //...and years
         this.findAndMarkToday();
-        console.log("END week.service.ts", this);
+
     }
 
     public setupWeeks(thisYear) {
@@ -32,12 +32,10 @@ export class WeekService {
         var date = dayOneOfThisYear;
         var weeks = []
 
-        console.log("date was ", date);
         //set date the monday before its day.
         while (date.getDay() !== 1) {
             date.setDate(date.getDate()-1);
         }
-        console.log("change to ", date);
 
 
 
@@ -61,7 +59,6 @@ export class WeekService {
                 date.setDate(date.getDate() + 1);
             } while (date.getDay() !== 1 && date.getFullYear() !== thisYear+1); //goto
 
-            console.log("week.length is ", week.length);
             if (week.length === 7) {//goto
                 weeks.push(week);
             }//goto
@@ -69,34 +66,6 @@ export class WeekService {
         this.weeks = weeks;
 
     }
-
-    public adjustWeek(week) {
-        return week;
-        /*
-        if (week.length === 7) { return week}
-        else {
-            let dummyWeek = [];
-            for (let name of this.dayNames) {
-                dummyWeek.push({
-                    "dateAndMonth": "",
-                    "isToday": false,
-                    "dateObj": "",
-                    "hours": 0,
-                    "month": "",
-                    "isLocked": false,
-                    "dayName": name
-                });
-            }
-            
-            let someValidDateInThisWeek = "";
-            for (let day of week) {
-                dummyWeek[day.dateObj.getDay()] = day;
-                someValidDateInThisWeek = day.dateObj;
-            }
-            return dummyWeek;
-        } //else end    
-        */
-}
 
     public findAndMarkToday() {
         var today = new Date();
@@ -126,9 +95,7 @@ export class WeekService {
 
                 week = this.weeks[this.weekNumber];
                 this.month = week[0].dateObj.getMonth();
-                console.log("\n");
-                console.log("change week within same month");
-                console.log("\n");
+
             }
             else {
                 this.changeYear(+1);
@@ -155,9 +122,7 @@ export class WeekService {
                 this.setupWeekRange(this.weeks[this.weekNumber]);
                 week = this.weeks[this.weekNumber];
                 this.month = week[week.length - 1].dateObj.getMonth();
-                console.log("\n");
-                console.log("change week within same month");
-                console.log("\n");
+
             }
             else {
                 this.changeYear(-1);
@@ -169,8 +134,7 @@ export class WeekService {
     }
 
     public changeYear(n) {
-        console.log("CHANGE YEAR");
-        console.log("\n n is \n", n);
+
         if (n > 0) { //increment YEAR
 
             this.setupWeeks(Number(this.year[2]));

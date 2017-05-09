@@ -9,8 +9,6 @@ export class ProjectsService {
 
     constructor() {
         this.projects = [];
-        console.log("projects.service.ts", this);
-       
     }
    
 }

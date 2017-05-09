@@ -92,7 +92,7 @@ a {
     template: ` 
   <div class="container">
 
-    <div [hidden]="isAdmin" class="boxAdmin"> 
+    <div [hidden]="!this.userService.isAdmin" class="boxAdmin"> 
 
         <a href="https://stebra.sharepoint.com/sites/SD1/_layouts/15/termstoremanager.aspx">
             <button class="admin-button">Go To TermStore</button>
@@ -155,19 +155,19 @@ export class AppComponent implements AfterViewInit {//.. us to call testComponen
         @Inject(ListService) public listService: ListService,
         @Inject(WeekService) public weekService: WeekService) {
 
+        window["log"] = this.log();
         console.log("app.compontent.ts", this);
     }
 
     public log() {
         console.log("\n debuginfo \n");
-        console.log('weekService', this.weekService);
-        console.log("ProjectsService", this.projectsService);
+        console.log('weekService', this.weekService, "\n");
+        console.log("ProjectsService", this.projectsService, "\n");
         console.log("UserService", this.userService, "\n");
-
+        console.log("app.component", this);
     }
 
     public impersonate(userObj) { //Admin can now browse the app as userObj
-        console.log("impersonating userObj", userObj);
         this.selectedConsultant = userObj;
         this.userService.impersonate = true;
         this.userService.user = userObj;
@@ -182,7 +182,6 @@ export class AppComponent implements AfterViewInit {//.. us to call testComponen
         this.listService.getAllItemsFromUser(this.userService.userId).then(
             response => {
                 myItems = response.value;
-                console.log("myItems", myItems);
                 for (let item of myItems) {
                     this.listService.deleteThis(item);
                 }
@@ -192,14 +191,8 @@ export class AppComponent implements AfterViewInit {//.. us to call testComponen
         );
 
     }
-    public logProjects() {
-        //console.log(this.projectsService.projects)
-    }
-
 
     public toggleBilling() {
-        //console.log("showBilling new flip",this.showBilling);
-
 
         setTimeout(() => {
             this.showBilling = !this.showBilling;
@@ -211,10 +204,5 @@ export class AppComponent implements AfterViewInit {//.. us to call testComponen
         }
         else
             this.hideElement = true;
-
-
     }
-
-
-
 }

@@ -32,7 +32,6 @@ export class TermService {
         this.domainString = domainString.split("/").join("-");
         //domainString is needed to identify which termGroup to fetch
 
-        console.log("term.service.ts", this);
     }
 
     public getTermStores(): Promise<any> {
@@ -112,7 +111,7 @@ export class TermService {
                 organizedTerms.push(correctTerm);
             }
         }
-        console.log("organizedTerms", organizedTerms);
+        //console.log("organizedTerms", organizedTerms);
         this.terms = organizedTerms;
         return organizedTerms;
     }

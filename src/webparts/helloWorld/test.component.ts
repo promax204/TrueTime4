@@ -453,7 +453,6 @@ export class TestComponent implements OnInit {
         @Inject(ProjectsService) public projectsService: ProjectsService,
         @Inject(WeekService) public weekService: WeekService,
         @Inject(UserService) public userService: UserService) {
-        console.log("test.compontent.ts", this);
     }
 
     public isOtherMonth(day) {
@@ -474,7 +473,7 @@ export class TestComponent implements OnInit {
                     if (this.userService.impersonate
                         && this.userService.user !== undefined) {
                         currentUserResponse = this.userService.user.name;
-                        //console.log("impersonation blocked get user",currentUserResponse);
+                       
                     }
 
 
@@ -489,7 +488,6 @@ export class TestComponent implements OnInit {
                                 this.userService.isKonsult = false;
                             }
                             //after terms are loaded, userId is defined...finally:
-                            //console.log("after terms are loaded, userId is defined...finally:this.loadWeek();", this.loadWeek());
                             this.loadWeek();
                         });
                 });
@@ -501,12 +499,11 @@ export class TestComponent implements OnInit {
         //NEW WEEK WAY
         this.week = this.weekService.weeks[this.weekService.weekNumber];
 
-        console.log("\n in loadWeek(), test.component");
-        console.log("this.week", this.week);
-        console.log("this.weekService.weekNumber", this.weekService.weekNumber);
-        console.log("this.weekService.weeks[this.weekService.weekNumber]", this.weekService.weeks[this.weekService.weekNumber])
+        //console.log("\n in loadWeek(), test.component");
+        //console.log("this.week", this.week);
+        //console.log("this.weekService.weekNumber", this.weekService.weekNumber);
+        //console.log("this.weekService.weeks[this.weekService.weekNumber]", this.weekService.weeks[this.weekService.weekNumber])
 
-        console.log("\n");
 
 
         //reset projects since it has data from another week
@@ -530,71 +527,6 @@ export class TestComponent implements OnInit {
             )
     }
 
-
-    /*
-    var weekIsLocked = false;
-    for (let item of items.value) {
-        if (item.Hours >= 1) {
-            var termGuid = item.Project.TermGuid;
-            for (let project of this.projectsService.projects) {
-                if (project.projectColumnValue.TermGuid === termGuid) { //Found match! 
-                    var date = new Date(item.EventDate);
-                    var dayAsIndex = date.getDay();
-                    switch (dayAsIndex) { //since date.getDay(); returns SUNDAYS as 0, and MONDAY 1, TUE, 2...
-                        case 0:
-                            dayAsIndex = 6
-                            break;
-                        default:
-                            dayAsIndex -= 1;
-                    }
-                    if (item.isLocked !== true && project.week[dayAsIndex] !== undefined) {
-
-                        project.week[dayAsIndex].isLocked = false;
-                    }
-                    else if (project.week[dayAsIndex] !== undefined) {
-                        //goto uncomment
-                        project.week[dayAsIndex].isLocked = true;
-
-                        //console.log("project.week[dayAsIndex].isLocked set to ", project.week[dayAsIndex].isLocked)
-
-                        var itemDate = new Date(item.EventDate);
-                        if (this.weekService.month === itemDate.getMonth()) {
-                            //console.log("this.weekService.month", this.weekService.month)
-                            //console.log("itemDate.getMonth()", itemDate.getMonth())
-                            //console.log("(this.weekService.month === itemDate.getMonth())", (this.weekService.month === itemDate.getMonth()))
-                            //weekIsLocked = true;
-                        }
-
-                    }
-                    //finally
-                    console.log("var dayAsIndex = date.getDay();", date.getDay());
-                    console.log("dayAsIndex", dayAsIndex);
-                    console.log("(project.week[dayAsIndex] !== undefined)", (project.week[dayAsIndex] !== undefined));
-                    if (project.week[dayAsIndex] !== undefined) {
-                        project.week[dayAsIndex].hours = item.Hours;
-                    }
-                }
-            }
-        }
-    }
-
-
-    if (weekIsLocked) {
-        var saveChanges = false;
-        this.userService.lockWeek(true, saveChanges);
-    }
-    else {
-    }
-
-    //STATUS
-    //console.log("this.weekService.month", this.weekService.month);
-    //console.log("this.projectsService.projects", this.projectsService.projects);
-    //console.log("this.weekService.month", this.weekService.month)
-}
-);
-}
-*/
-
     public updateView(items) {
 
         let weekIsLocked = false;
@@ -609,8 +541,6 @@ export class TestComponent implements OnInit {
             }
             projectsObj[project.projectColumnValue.TermGuid].weekObj = weekObj;
         }
-
-        console.log("projectsObj", projectsObj);
 
         for (let item of items) {
             if (item.Hours >= 1) {
@@ -652,7 +582,7 @@ export class TestComponent implements OnInit {
             var project: Project = term;
             this.projectsService.projects.push(project);
         }
-        //console.log("done, this.projectsService.projects", this.projectsService.projects);
+        
     }
 
     public gotoWeek() {
@@ -676,7 +606,6 @@ export class TestComponent implements OnInit {
             var splicedItem = this.projectsService.projects.splice(index, 1);
             this.projectsService.projects.push(splicedItem[0]);
         }
-        console.log("DoDo", this.selectItem(project));
     }
 
     public deleteProject(project: Project) {

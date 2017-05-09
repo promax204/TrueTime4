@@ -224,7 +224,6 @@ export class BillingComponent {
         @Inject(ProjectsService) public projectsService: ProjectsService,
         @Inject(WeekService) public weekService: WeekService,
         @Inject(UserService) public userService: UserService) {
-        console.log("billing.compontent.ts", this);
     }
 
 
@@ -254,9 +253,6 @@ export class BillingComponent {
         let startFormatted = dateStart.format("yyyy-MM-dd") + "T00:00:00Z";//Thh:mm:ssZ");
         let endFormatted = dateEnd.format("yyyy-MM-dd") + "T23:59:59Z";
 
-        console.log("startFormatted", startFormatted);
-        console.log("endFormatted", endFormatted);
-
         let filterQuery = `(EventDate ge datetime'${startFormatted}') and (EventDate le datetime'${endFormatted}')`;
 
         //FILTERQUERY
@@ -271,11 +267,8 @@ export class BillingComponent {
         let url = window['context'].pageContext.web.absoluteUrl + `/english/_api/web/lists/GetByTitle('${listName}')/items?$top=${itemLimit}&$filter=${filterQuery}`;
         window['context'].spHttpClient.get(url, SPHttpClient.configurations.v1)
             .then((response: Response) => {
-                console.log("response", response);
                 response.json().then(innerResponse => {
                     this.restedItems = innerResponse.value;
-                    console.log("...end of restCall(), this.restedItems filled with data:", this.restedItems);
-
                     this.summarizeItems();
                     //this.filterItems(); //to do, chain this funtion
                 })
@@ -300,8 +293,8 @@ export class BillingComponent {
             //  user..
 
             //DEBUG
-            let oneItem = this.restedItems[0];
-            console.log("anatomy of an rested item: ", oneItem);
+            //let oneItem = this.restedItems[0];
+            //console.log("anatomy of an rested item: ", oneItem);
             //DEBUG
 
             let users = JSON.parse(JSON.stringify(this.userService.users));
@@ -320,15 +313,11 @@ export class BillingComponent {
                 usersObj[user.Id] = user; //make sure keyName is userId
             }
 
-            console.log("usersObj", usersObj);
-
             //add upp all hourstotal for consultants.
             for (let item of this.restedItems) {
                 usersObj[item.ConsultantId].projects[item.Projectname].hoursTotal += item.Hours;
                 //console.log("usersObj[item.ConsultantId].projects[item.Projectname].hoursTotal", usersObj[item.ConsultantId].projects[item.Projectname].hoursTotal);
             }
-            console.log("usersObj AFTER SUM", usersObj);
-
 
             //we need to pack it back up in arrays since we 
             //...want to loop it out with *ngFor
@@ -338,7 +327,6 @@ export class BillingComponent {
             for (let user of usersArray) {
                 user.projArray = this.objToArray(user.projects);
             }
-            console.log("usersArray", usersArray);
             this.summarizedItems = usersArray;
         }
         else {
@@ -396,68 +384,3 @@ export class BillingComponent {
     }
 
 }
-
-/*
-
-public filterItems() {
-        if (this.selectedProject === undefined) {
-            this.filteredItems = this.restedItems;
-
-            let ConsultantId;
-            let Hours;
-            let Projectname;
-            for (let item of this.filteredItems) {
-                for (let obj of this.userService.users) {
-                    obj.Title;
-                    obj.Id;
-                    if (obj.Id === item.ConsultantId) {
-                        let ConsultantId = obj.Title
-                        item.ConsultantId = obj.Title;
-                        Hours = item.Hours;
-                        Projectname = item.Projectname;
-
-                        //console.log("Consultan", obj.Title);
-                        //console.log("Hours", item.Hours);
-                        //console.log("Project", item.Projectname);
-                    }
-                }
-
-            }
-
-        }
-        else {
-            this.filterItemsByProject(this.selectedProject, this.restedItems);
-
-            for (let item of this.filteredItems) {
-                for (let obj of this.userService.users) {
-                    obj.Title;
-                    obj.Id;
-                    if (obj.Id === item.ConsultantId) {
-                        let ConsultantId = obj.Title
-                        item.ConsultantId = obj.Title;
-                        let Hours = item.Hours;
-                        let Projectname = item.Projectname;
-
-                        console.log("Consultan", obj.Title);
-                        console.log("Hours", item.Hours);
-                        console.log("Project", item.Projectname);
-                    }
-                }
-
-            }
-        }
-    }
-
-    public filterItemsByProject(selectedProject: Project, itemsArray) {
-
-        let filteredItems = []
-
-        for (let item of itemsArray) {
-            if (item.Project.TermGuid === selectedProject.projectColumnValue.TermGuid) {
-                filteredItems.push(item);
-            }
-        }
-        this.filteredItems = filteredItems;
-    }
-
-    */
