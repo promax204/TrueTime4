@@ -91,17 +91,18 @@ text-decoration: none;
     
 }
 #sumWeek{
-       
         font-weight: bold;
         width:0%;
         height:44%;
-        margin: 3.5% 0% 0% 1%;
-        float:right;
         text-align:center;
+        position: relative;
+        left: 4.5%;
 }
 .month-label {
-    text-align: -webkit-center;
+    color:#949494;
     position: relative;
+    left: 2%;
+    top: 7%;
 }
 .boxheader{
     width: 100%;
@@ -182,9 +183,8 @@ ul, li {
     z-index: 10;
 }
 .dropdown {
-    position: relative;
     display: inline-block;
-    margin: 1% -88px 0 0%;
+    position:relative;
     z-index: 10;
 }
 .dropdown-content {
@@ -208,16 +208,12 @@ ul, li {
 .sumDeleteBox{
     width: 12%;
     height: 75px;
-    float: right;
 }
 #addProject{
-   margin: 0% 0 0 -34%; 
 }
 .buttonBox{
     width: 25%;
     height: 75px;
-    float: left;
-    margin: 2.5% 0% 0% -26%;
 }
 #project{
     min-width: 85px;
@@ -242,22 +238,15 @@ ul, li {
 .totalSumDay{
     color: #cccccc;
     font-weight: bold;
-    float:left;
     text-align:center;
-    width: 6%; 
-    border: 1px solid #f2f2f2;
-    border-radius: 5px;
     height:40px;
-    margin: 3.5% 0% 0% 0.75%;
+    margin-right: 5.25%;
+    margin-left: 5.25%;
   
 }
 .totalSum{
     color: #808080;
     font-weight: bold;
-    width:0%;
-    height:44%;
-    margin: 3.3% 0% 0% 1%;
-    float:right;
     text-align:center;
 }
 .arrow {
@@ -334,6 +323,18 @@ ul, li {
     position: absolute;
     margin-top: 38px;
     padding-right: 4%;
+}
+.buttons {
+    margin-top:5px;
+}
+.buttons button {
+    margin-left:2px;
+    margin-right:2px;
+}
+.bottom-row {
+    width:96.5%;
+    padding-left: 2.5%;
+    padding-right: 2.5%;
 }
 
 
@@ -430,7 +431,25 @@ ul, li {
     </div>
 
     <div class="boxfooter">
-        <div ><!-- class="buttonBox" -->
+
+
+
+        <div class="bottom-row row center" *ngIf="week?.length > 0 && projectsService.projects?.length > 0">
+            <div  *ngFor="let day of week; let i=index" class="totalSumDay"
+               [class.red]="this.getSumDay(i) < 8"
+                [class.yellow]="this.getSumDay(i) > 8"
+                [class.green]="this.getSumDay(i) === 8">
+                    {{this.getSumDay(i)  | number : decimalConfig() }}
+            </div> 
+            <div 
+                class="totalSum" 
+                id="sumWeek"
+                *ngIf="projectsService.projects?.length > 0">
+                    {{this.getSumTotal()  | number : decimalConfig() }} 
+            </div>
+        </div>
+
+        <div class="row center buttons">
             <div class="dropdown" id="addProject">
                 <button class="projectButton">+ New Row</button>
 
@@ -442,24 +461,10 @@ ul, li {
                     </li>
                 </ul>
             </div>
-
             <!--<button *ngIf="projectsService.projects?.length > 0" class="saveButton" (click)="userService.save()">Save</button>-->
             <button *ngIf="projectsService.projects?.length > 0" class="reportButton" (click)="userService.lockWeek(true, true)">Lock Week</button>
+        </div>
 
-        </div>
-        <div *ngIf="week?.length > 0 && projectsService.projects?.length > 0">
-            <div  *ngFor="let day of week; let i=index" class="totalSumDay"
-               [class.red]="this.getSumDay(i) < 8"
-                [class.yellow]="this.getSumDay(i) > 8"
-                [class.green]="this.getSumDay(i) === 8"
-            >{{this.getSumDay(i)  | number : decimalConfig() }}</div> 
-        </div>
-        <div 
-            class="totalSum" 
-            id="sumWeek"
-            *ngIf="projectsService.projects?.length > 0">
-                {{this.getSumTotal()  | number : decimalConfig() }} 
-        </div>
     </div>
   `
 })
