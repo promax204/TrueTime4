@@ -18,6 +18,8 @@ export class UserService {
     public email;
     public user;
     public impersonate: boolean;
+    
+    //var big = (x > 10) ? true : false;
 
     constructor(
         @Inject(ListService) public listService: ListService,

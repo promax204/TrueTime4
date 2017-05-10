@@ -160,6 +160,7 @@ export class AppComponent implements AfterViewInit {//.. us to call testComponen
             "projectsService":this.projectsService,
             "userService": this.userService,
             "app.component": this,
+            "TestComponent": TestComponent
         };
         //console.log("app.compontent.ts", this);
     }

@@ -402,7 +402,7 @@ ul, li {
         <div class="sumDeleteBox">
             <div class="sum" >
              
-                    {{this.getSum(project)  | number : '1.2-2' }}
+                    {{this.getSum(project)  | number : decimalConfig() }}
             </div>
 
             <button (click)="deleteProject(project)" class="deleteButton" >X</button>
@@ -433,13 +433,13 @@ ul, li {
                [class.red]="this.getSumDay(i) < 8"
                 [class.yellow]="this.getSumDay(i) > 8"
                 [class.green]="this.getSumDay(i) === 8"
-            >{{this.getSumDay(i)  | number : '1.2-2' }}</div>
+            >{{this.getSumDay(i)  | number : decimalConfig() }}</div> 
         </div>
         <div 
             class="totalSum" 
             id="sumWeek"
             *ngIf="projectsService.projects?.length > 0">
-                {{this.getSumTotal()  | number : '1.2-2' }}
+                {{this.getSumTotal()  | number : decimalConfig() }} 
         </div>
     </div>
   `
@@ -449,13 +449,18 @@ export class TestComponent implements OnInit {
 
     public week: Array<any>;
 
+
     public constructor(
         @Inject(TermService) public termService: TermService,
         @Inject(ListService) public listService: ListService,
         @Inject(ProjectsService) public projectsService: ProjectsService,
         @Inject(WeekService) public weekService: WeekService,
         @Inject(UserService) public userService: UserService) {
+            console.log("HELLO MY NAME IS GEORGE!");
+            console.log("this.decimalConfig()", this.decimalConfig());
     }
+
+
 
     public isOtherMonth(day) {
         if (day.month !== this.weekService.month) { return true }
@@ -619,6 +624,12 @@ export class TestComponent implements OnInit {
             var splicedItem = this.projectsService.projects.splice(index, 1);
             this.projectsService.projects.push(splicedItem[0]);
         }
+    }
+
+    public decimalConfig(){
+        return this.userService.isAdmin ? "1.2-2" : "1.0"; 
+        //admin shows more decimals
+        //1.0 means minimum 1 digit before decimal , 0 after.
     }
 
     public deleteProject(project: Project) {
