@@ -397,7 +397,7 @@ ul, li {
             disabled="{{project.week[i].isLocked || project.week[i].month !== weekService.month}}"
             [(ngModel)]="project.week[i].hours" 
             (click)="removeZeroInInput($event)" 
-            (blur)="roundHours($event)" />
+            (blur)="onBlurHoursInput($event)" />
 
         <div class="sumDeleteBox">
             <div class="sum" >
@@ -418,13 +418,13 @@ ul, li {
                 <ul class="dropdown-content" id="project">
                     <li *ngFor="let project of projectsService.projects" 
                         (click)="selectItem(project)" 
-                        [hidden]="project.hideProject === true">
+                        [hidden]="project.hideProject === false">
                         {{ project.name }}
                     </li>
                 </ul>
             </div>
 
-            <button *ngIf="projectsService.projects?.length > 0" class="saveButton" (click)="userService.save()">Save</button>
+            <!--<button *ngIf="projectsService.projects?.length > 0" class="saveButton" (click)="userService.save()">Save</button>-->
             <button *ngIf="projectsService.projects?.length > 0" class="reportButton" (click)="userService.lockWeek(true, true)">Lock Week</button>
 
         </div>
@@ -456,8 +456,8 @@ export class TestComponent implements OnInit {
         @Inject(ProjectsService) public projectsService: ProjectsService,
         @Inject(WeekService) public weekService: WeekService,
         @Inject(UserService) public userService: UserService) {
-            console.log("HELLO MY NAME IS GEORGE!");
-            console.log("this.decimalConfig()", this.decimalConfig());
+        console.log("HELLO MY NAME IS GEORGE!");
+        console.log("this.decimalConfig()", this.decimalConfig());
     }
 
 
@@ -560,7 +560,7 @@ export class TestComponent implements OnInit {
             for (let day of project.week) {
                 sumHours += day.hours;
             }
-            if (sumHours === 0) {project.hideProject = true;}
+            if (sumHours === 0) { project.hideProject = true; }
         }
     }
     public showProjects() {
@@ -626,8 +626,8 @@ export class TestComponent implements OnInit {
         }
     }
 
-    public decimalConfig(){
-        return this.userService.isAdmin ? "1.2-2" : "1.0"; 
+    public decimalConfig() {
+        return this.userService.isAdmin ? "1.2-2" : "1.0";
         //admin shows more decimals
         //1.0 means minimum 1 digit before decimal , 0 after.
     }
@@ -687,6 +687,12 @@ export class TestComponent implements OnInit {
             event.srcElement.value = "";
         }
     }
+
+    public onBlurHoursInput(event) {
+        this.roundHours(event);
+        this.userService.save();
+    }
+
     public roundHours(event) {
         //replace "" with "0"
         if (event.srcElement.value === "") {
@@ -699,4 +705,6 @@ export class TestComponent implements OnInit {
             event.srcElement.valueAsNumber = roundedNum;
         }
     }
+
+
 }
