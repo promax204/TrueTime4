@@ -23,54 +23,8 @@ text-decoration: none;
 
 }
 
-.left-arrow {
 
-cursor:pointer;
-color:#039 !important;
-position: absolute;
-top: 100px;
-left: 250px;
 
-/* Safari */
--webkit-transform: rotate(90deg);
-
-/* Firefox */
--moz-transform: rotate(90deg);
-
-/* IE */
--ms-transform: rotate(90deg);
-
-/* Opera */
--o-transform: rotate(90deg);
-
-/* Internet Explorer */
-filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=6);
-
-}
-.right-arrow {
-
-cursor:pointer;
-color:#039 !important;
-position: absolute;
-top: 100px;
-right: 100px;
-    
-/* Safari */
--webkit-transform: rotate(-90deg);
-
-/* Firefox */
--moz-transform: rotate(-90deg);
-
-/* IE */
--ms-transform: rotate(-90deg);
-
-/* Opera */
--o-transform: rotate(-90deg);
-
-/* Internet Explorer */
-filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
-
-}
 
 .hide {
     display:none;
@@ -333,6 +287,25 @@ ul, li {
     float:right;
     text-align:center;
 }
+.arrow {
+    position:absolute;
+    text-align:initial;
+    
+    cursor:pointer;
+    color:#039 !important;
+}
+.arrow-container {
+    float:left;
+    position:relative;
+}
+
+.arrow-left {
+
+}
+.arrow-right {
+    bottom: -26px;
+    left: 18px;
+}
 
   `],
     template: `
@@ -340,19 +313,22 @@ ul, li {
     <div class="boxheader"> 
 
 
-        <h2 
-            class="left-arrow" 
-            (click)="backtoWeek()"
-            [class.other-month-label]="weekService.weekBeforeLastDayMonth() !== weekService.month">
-            V
-        </h2>
 
         <div class="month-label" *ngIf="weekService.month !== undefined">
             {{ weekService.monthNamesLarge[weekService.month]}}
         </div>
 
         <div class = "dateBox">
+            <div class="arrow-container">
+                <h2 
+                    class="arrow arrow-left"
+                    (click)="backtoWeek()"
+                    [class.other-month-label]="weekService.weekBeforeLastDayMonth() !== weekService.month">
+                        <
+                </h2>
+            </div>
             <br/>
+
                 <div *ngIf="weekService.weeks.length > 0"> 
                     <div *ngFor="let day of weekService.week(); let i=index" 
                             [class.other-month-label]="weekService.week()[i].month !== weekService.month" class="dayBox"> 
@@ -366,14 +342,17 @@ ul, li {
                         {{ day.dateAndMonth }}
                     </div>
                 </div>
+                <div class="arrow-container">
+                    <h2 
+                        class="arrow arrow-right"
+                        (click)="gotoWeek()" 
+                        [class.other-month-label]="weekService.weekNextFirstDayMonth() !== weekService.month">
+                        >
+                    </h2>
+                </div>
         </div> 
 
-        <h2 
-            class="right-arrow" 
-            (click)="gotoWeek()" 
-            [class.other-month-label]="weekService.weekNextFirstDayMonth() !== weekService.month">
-            V
-        </h2>
+
  
                 
     </div>
@@ -383,9 +362,9 @@ ul, li {
 
     <div class="boxbody" [hidden]="project.hideProject" *ngFor="let project of projectsService.projects">
         <br/>
-        <div  class="projectBox"> 
+        <div class="projectBox"> 
             <div> {{ project.name }} </div>
-            <div id="fontNormal"> ({{project.type}}) </div>
+            <!--<div id="fontNormal"> ({{project.type}}) </div>-->
         </div>
 
         <input *ngFor="let day of week; let i=index" 
