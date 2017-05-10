@@ -64,10 +64,7 @@ text-decoration: none;
     color:grey !important;
 }
 
-.workingHoursBox {
-    border-color:#bdd1ff;
-    color:darkblue;
-}
+
 
 .today {
     background-color:#c9e0ff;
@@ -104,8 +101,6 @@ text-decoration: none;
 }
 .month-label {
     text-align: -webkit-center;
-    margin-bottom: -10px;
-    left: 70px;
     position: relative;
 }
 .boxheader{
@@ -117,24 +112,10 @@ text-decoration: none;
     background-color: #f2f2f2;
     color: #003399;
 }
-.dateBox{
-    padding-left: 34%;
-    width: 50%;
-    height:100%;
-    text-align: right;  
-}
-.weekDays{
-    width: 13%;
-    float:left;
-    margin-left:1%;
-}
-.dayBox{
-    width: 13%; 
-    float:left;
-    font-weight: bold;
-    margin-left:1%;
-}
+
+
 .boxbody{
+    display:flex;
     width: 100%;
     height:75px;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
@@ -142,14 +123,16 @@ text-decoration: none;
     background-color: #ffffff;
     color: #000000;
 }
+
 .workingHoursBox{
-    width: 6%; 
-    margin-left: 0.75%;
+    width: 9%;
+    margin-left: 2%;
     border: 1px solid #cccccc;
     border-radius: 5px;
     height:40px;
-    float:left;
     text-align: center;
+    border-color:#bdd1ff;
+    color:darkblue;
 }
 .projectBox{
     width: 34%;
@@ -183,17 +166,7 @@ input::-webkit-inner-spin-button {
 #fontNormal{
     font-weight: normal; 
 }
-.sum{
-    
-    color: #cccccc;
-    font-weight: bold;
-    height:44%;
-    float:left;
-    text-align:center;
-    margin-right: 29px;
-    margin-top: 11px;
-    max-width: 28px;
-}
+
 .projectButton{
     width: 107px;
     height:30px;
@@ -288,24 +261,81 @@ ul, li {
     text-align:center;
 }
 .arrow {
-    position:absolute;
     text-align:initial;
-    
     cursor:pointer;
     color:#039 !important;
 }
-.arrow-container {
-    float:left;
-    position:relative;
-}
+
 
 .arrow-left {
 
 }
 .arrow-right {
-    bottom: -26px;
-    left: 18px;
+
 }
+.project-labels {
+    margin-top:4px;
+    margin-bottom:4px;
+    display:flex;
+    flex-direction:row;
+    justify-content:center;
+}
+.project-labels b {
+    color:#c9e0ff;
+}
+.project-type-label {
+    color:#cccccc;
+}
+.input-container {
+    display: flex;
+    justify-content: center;
+}
+.column {
+    display:flex;
+    flex-direction:column;
+}
+.row {
+    display:flex;
+    flex-direction:row;
+}
+.center {
+    display:flex;
+    justify-content: center;
+}
+.end {
+    display:flex;
+    justify-content: flex-end;
+}
+.weekDays{
+    width: 13%;
+    margin-left:1%;
+    text-align: center;
+}
+.dayBox{
+    text-align: center;
+    width: 13%; 
+    font-weight: bold;
+    margin-left:1%;
+}
+.dateBox{
+    display:flex;
+    flex-direction:row;
+    justify-content: center;
+    width: 100%;
+    height:100%;
+}
+.dates-and-daynames {
+    width: 81%;
+    margin-left: 3%;
+}
+.sum{
+    color: #cccccc;
+    font-weight: bold;
+    position: absolute;
+    margin-top: 38px;
+    padding-right: 4%;
+}
+
 
   `],
     template: `
@@ -314,12 +344,13 @@ ul, li {
 
 
 
+
         <div class="month-label" *ngIf="weekService.month !== undefined">
             {{ weekService.monthNamesLarge[weekService.month]}}
         </div>
+        <div class="dateBox row">
 
-        <div class = "dateBox">
-            <div class="arrow-container">
+            <div>
                 <h2 
                     class="arrow arrow-left"
                     (click)="backtoWeek()"
@@ -327,29 +358,34 @@ ul, li {
                         <
                 </h2>
             </div>
-            <br/>
 
-                <div *ngIf="weekService.weeks.length > 0"> 
-                    <div *ngFor="let day of weekService.week(); let i=index" 
-                            [class.other-month-label]="weekService.week()[i].month !== weekService.month" class="dayBox"> 
+            <div class="dates-and-daynames column">
+                <div class="row" *ngIf="weekService.weeks.length > 0" > 
+                    <div class="dayBox" 
+                        *ngFor="let day of weekService.week(); let i=index" 
+                        [class.other-month-label]="weekService.week()[i].month !== weekService.month" > 
                             {{ day.dayName }}
                     </div>
                 </div>
-            <br/>
-                <div >
-                    <div class="weekDays" *ngFor="let day of week; let i=index"
+
+                <div class="row">
+                    <div class="weekDays" 
+                        *ngFor="let day of week; let i=index"
                         [class.other-month-label]="day.month !== weekService.month">
                         {{ day.dateAndMonth }}
                     </div>
                 </div>
-                <div class="arrow-container">
-                    <h2 
-                        class="arrow arrow-right"
-                        (click)="gotoWeek()" 
-                        [class.other-month-label]="weekService.weekNextFirstDayMonth() !== weekService.month">
-                        >
-                    </h2>
-                </div>
+            </div>
+
+            <div>
+                <h2 
+                    class="arrow arrow-right"
+                    (click)="gotoWeek()" 
+                    [class.other-month-label]="weekService.weekNextFirstDayMonth() !== weekService.month">
+                    >
+                </h2>
+            </div>
+
         </div> 
 
 
@@ -361,36 +397,40 @@ ul, li {
     <div  *ngIf="projectsService.projects?.length === 0" class="loading"></div>
 
     <div class="boxbody" [hidden]="project.hideProject" *ngFor="let project of projectsService.projects">
-        <br/>
-        <div class="projectBox"> 
-            <div> {{ project.name }} </div>
-            <!--<div id="fontNormal"> ({{project.type}}) </div>-->
-        </div>
 
-        <input *ngFor="let day of week; let i=index" 
-            type="number" 
-            [class.today]="project.week[i].isToday"
-            [class.locked]="project.week[i].isLocked"
-            class="workingHoursBox"
-            [class.other-month]="project.week[i].month !== weekService.month"
-            disabled="{{project.week[i].isLocked || project.week[i].month !== weekService.month}}"
-            [(ngModel)]="project.week[i].hours" 
-            (click)="removeZeroInInput($event)" 
-            (blur)="onBlurHoursInput($event)" />
+        <div class="row end">
+            <div class="column">
+                <div class="project-labels"> 
+                <b>{{ project.name }} &nbsp;</b> 
+                <br/>
+                <label class="project-type-label">{{ project.type }}</label>
+                </div>
 
-        <div class="sumDeleteBox">
-            <div class="sum" >
-             
-                    {{this.getSum(project)  | number : decimalConfig() }}
+                <div class="input-container">
+                    <input *ngFor="let day of week; let i=index" 
+                        type="number" 
+                        [class.today]="project.week[i].isToday"
+                        [class.locked]="project.week[i].isLocked"
+                        class="workingHoursBox"
+                        [class.other-month]="project.week[i].month !== weekService.month"
+                        disabled="{{project.week[i].isLocked || project.week[i].month !== weekService.month}}"
+                        [(ngModel)]="project.week[i].hours" 
+                        (click)="removeZeroInInput($event)" 
+                        (blur)="onBlurHoursInput($event)" />
+                </div>
             </div>
 
-            <button (click)="deleteProject(project)" class="deleteButton" >X</button>
+            <div class="sum" >
+                {{this.getSum(project)  | number : decimalConfig() }}
+            </div>
         </div>
+
+            <!--<button (click)="deleteProject(project)" class="deleteButton" >X</button>-->
+
     </div>
 
     <div class="boxfooter">
-
-        <div class="buttonBox">
+        <div ><!-- class="buttonBox" -->
             <div class="dropdown" id="addProject">
                 <button class="projectButton">+ New Row</button>
 
