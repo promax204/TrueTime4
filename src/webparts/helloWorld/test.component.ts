@@ -118,11 +118,12 @@ text-decoration: none;
 .boxbody{
     display:flex;
     width: 100%;
-    height:75px;
+    height:80px;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     border-bottom: 1px solid #cccccc;
     background-color: #ffffff;
     color: #000000;
+    padding-bottom:5px:
 }
 
 .workingHoursBox{
@@ -325,13 +326,14 @@ ul, li {
     padding-right: 4%;
 }
 .buttons {
-    margin-top:5px;
 }
 .buttons button {
     margin-left:2px;
     margin-right:2px;
 }
 .bottom-row {
+    max-height:30px;
+    margin-top:5px;
     width:96.5%;
     padding-left: 2.5%;
     padding-right: 2.5%;
@@ -480,7 +482,6 @@ export class TestComponent implements OnInit {
         @Inject(ProjectsService) public projectsService: ProjectsService,
         @Inject(WeekService) public weekService: WeekService,
         @Inject(UserService) public userService: UserService) {
-        console.log("HELLO MY NAME IS GEORGE!");
         console.log("this.decimalConfig()", this.decimalConfig());
     }
 
