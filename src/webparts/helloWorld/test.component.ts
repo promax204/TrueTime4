@@ -338,6 +338,22 @@ ul, li {
     padding-left: 2.5%;
     padding-right: 2.5%;
 }
+.close-button {
+    position: absolute;
+    background-color: #aa0568;
+    padding: 5px;
+    color: white;
+    border-radius: 50%;
+    height: 5px;
+    width: 9px;
+    text-align: center;
+    padding-bottom: 15px;
+    font-size: 10px;
+    padding-top: 2px;
+    padding-bottom: 12px;
+    margin-top: 2px;
+    margin-left: -3px;
+}
 
 
   `],
@@ -399,7 +415,10 @@ ul, li {
 
     <div  *ngIf="projectsService.projects?.length === 0" class="loading"></div>
 
-    <div class="boxbody" [hidden]="project.hideProject" *ngFor="let project of projectsService.projects">
+    <div class="boxbody" 
+        [hidden]="project.hideProject" 
+        (click)="showCloseButton(project)"
+        *ngFor="let project of projectsService.projects">
 
         <div class="row end">
             <div class="column">
@@ -410,6 +429,7 @@ ul, li {
                 </div>
 
                 <div class="input-container">
+  
                     <input *ngFor="let day of week; let i=index" 
                         type="number" 
                         [class.today]="project.week[i].isToday"
@@ -423,8 +443,17 @@ ul, li {
                 </div>
             </div>
 
+
+
             <div class="sum" >
                 {{this.getSum(project)  | number : decimalConfig() }}
+            </div>
+
+            <div 
+                class="close-button"
+                [hidden]="!project.showCloseButton"
+                (click)="deleteProject(project)">
+               x
             </div>
         </div>
 
@@ -485,6 +514,14 @@ export class TestComponent implements OnInit {
         console.log("this.decimalConfig()", this.decimalConfig());
     }
 
+
+public showCloseButton(project: Project) {
+    console.log("ok, i'll show it all right");
+    project.showCloseButton = true;
+    setTimeout(
+        ()=>{ project.showCloseButton = false }, 
+        3000);
+}
 
 
     public isOtherMonth(day) {

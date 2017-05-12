@@ -4,6 +4,7 @@ export interface Project {
     week: Array<Day>;
     isActive: Boolean;
     hideProject: boolean;
+    showCloseButton: boolean;
     projectColumnValue: {
         label: string;
         TermGuid: string;
