@@ -354,6 +354,9 @@ ul, li {
     margin-top: 2px;
     margin-left: -3px;
 }
+.hide-me {
+    display:none;
+}
 
 
   `],
@@ -415,9 +418,7 @@ ul, li {
 
     <div  *ngIf="projectsService.projects?.length === 0" class="loading"></div>
 
-    <div class="boxbody" 
-        [hidden]="project.hideProject" 
-        (click)="showCloseButton(project)"
+    <div class="boxbody" [class.hide-me]="project.hideProject" (click)="showCloseButton(project)"
         *ngFor="let project of projectsService.projects">
 
         <div class="row end">
@@ -516,11 +517,10 @@ export class TestComponent implements OnInit {
 
 
 public showCloseButton(project: Project) {
-    console.log("ok, i'll show it all right");
-    project.showCloseButton = true;
+    project.showCloseButton = !project.showCloseButton; //toggle
     setTimeout(
         ()=>{ project.showCloseButton = false }, 
-        3000);
+        2500);
 }
 
 
@@ -695,6 +695,7 @@ public showCloseButton(project: Project) {
     }
 
     public deleteProject(project: Project) {
+        console.log("deleteProject()");
         project.hideProject = true;
         /*for (let day of project.week) {
             day.hours = 0;
@@ -745,6 +746,7 @@ public showCloseButton(project: Project) {
     }
 
     public removeZeroInInput(event) {
+        event.stopPropagation();
         if (event.srcElement.value === "0") {
             event.srcElement.value = "";
         }

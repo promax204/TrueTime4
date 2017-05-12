@@ -1,10 +1,10 @@
 {
   "solution": {
-    "name": "truenew-2-client-side-solution",
-    "id": "8ef4d0f0-96a9-4658-a1f6-31834d65bdc4",
-    "version": "1.0.0.11"
+    "name": "truenew-2_1",
+    "id": "8ef4d0f0-96a9-4658-a1f6-31834d65bdc3",
+    "version": "1.0.2.1"
   },
   "paths": {
-    "zippedPackage": "solution/truenew-2.sppkg"
+    "zippedPackage": "solution/truenew-2_1.sppkg"
   }
 }
