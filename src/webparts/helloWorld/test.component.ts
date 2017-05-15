@@ -15,20 +15,8 @@ import { Project, Day } from './trueTimeData';
     selector: 'test',
     styles: [`
   
-a.arrow {
-text-decoration: none;
-}
-
-.arrow div {
-
-}
-
-
-
-
-.hide {
-    display:none;
-}
+a.arrow {   text-decoration: none;  }
+.hide { display:none;   }
 .locked-hours {
     color: lightgrey;
     width: 6%;
@@ -40,7 +28,6 @@ text-decoration: none;
     margin-top: 8px;
     border: 1px solid #ffffff;
 }
-
 .loading {
     width: 300px;
     height: 200px;
@@ -49,7 +36,6 @@ text-decoration: none;
     background-image: url(https://d13yacurqjgara.cloudfront.net/users/69182/screenshots/2179253/animated_loading__by__amiri.gif);
     background-position: 20% 50%;
 }
-
 .other-month {
     border-color:white !important;
     background-color:white !important;
@@ -60,43 +46,22 @@ text-decoration: none;
     -ms-filter: blur(2px);
     filter: blur(2px);
 }
-.other-month-label {
-    color:grey !important;
-}
-
-
-
-.today {
-    background-color:#c9e0ff;
-}
-
+.other-month-label {    color:grey !important;  }
+.today {    background-color:#c9e0ff;   }
 .locked {
     color:grey;
     border-color:grey;
 }
-
-.red{
-    color: red;
-    
-    
-}
-.yellow{
-    color: #ffcb00;
-    
-    
-}
-.green{
-    color: green; 
-
-    
-}
+.red{   color: red;  }
+.yellow{    color: #ffcb00; }
+.green{ color: green; }
 #sumWeek{
-        font-weight: bold;
-        width:0%;
-        height:44%;
-        text-align:center;
-        position: relative;
-        left: 4.5%;
+    font-weight: bold;
+    width:0%;
+    height:44%;
+    text-align:center;
+    position: relative;
+    left: 4.5%;
 }
 .month-label {
     color:#949494;
@@ -113,8 +78,6 @@ text-decoration: none;
     background-color: #f2f2f2;
     color: #003399;
 }
-
-
 .boxbody{
     display:flex;
     width: 100%;
@@ -125,7 +88,6 @@ text-decoration: none;
     color: #000000;
     padding-bottom:5px:
 }
-
 .workingHoursBox{
     width: 9%;
     margin-left: 2%;
@@ -168,7 +130,6 @@ input::-webkit-inner-spin-button {
 #fontNormal{
     font-weight: normal; 
 }
-
 .projectButton{
     width: 107px;
     height:30px;
@@ -176,7 +137,6 @@ input::-webkit-inner-spin-button {
     color: #808080;
     background-color: #f9f9f9;
     font-weight: bold;
-   
 }
 ul, li {
     margin: 0px;
@@ -203,14 +163,10 @@ ul, li {
     position:relative;
     text-align: center;
 }
-.dropdown:hover .dropdown-content {
-    display: block;
-}
+.dropdown:hover .dropdown-content { display: block; }
 .sumDeleteBox{
     width: 12%;
     height: 75px;
-}
-#addProject{
 }
 .buttonBox{
     width: 25%;
@@ -229,7 +185,6 @@ ul, li {
     font-weight: bold;
 }
 .reportButton{
-    /*width: 85px;*/
     height:30px;
     border-radius: 5px;
     color: #808080;
@@ -243,7 +198,6 @@ ul, li {
     height:40px;
     margin-right: 5.25%;
     margin-left: 5.25%;
-  
 }
 .totalSum{
     color: #808080;
@@ -255,14 +209,6 @@ ul, li {
     cursor:pointer;
     color:#039 !important;
 }
-
-
-.arrow-left {
-
-}
-.arrow-right {
-
-}
 .project-labels {
     margin-top:4px;
     margin-bottom:4px;
@@ -270,12 +216,8 @@ ul, li {
     flex-direction:row;
     justify-content:center;
 }
-.project-labels b {
-    color:#c9e0ff;
-}
-.project-type-label {
-    color:#cccccc;
-}
+.project-labels b { color:#c9e0ff;  }
+.project-type-label {   color:#cccccc;  }
 .input-container {
     display: flex;
     justify-content: center;
@@ -325,8 +267,6 @@ ul, li {
     margin-top: 38px;
     padding-right: 4%;
 }
-.buttons {
-}
 .buttons button {
     margin-left:2px;
     margin-right:2px;
@@ -354,11 +294,7 @@ ul, li {
     margin-top: 2px;
     margin-left: -3px;
 }
-.hide-me {
-    display:none;
-}
-
-
+.hide-me {  display:none;   }
   `],
     template: `
 
@@ -516,12 +452,12 @@ export class TestComponent implements OnInit {
     }
 
 
-public showCloseButton(project: Project) {
-    project.showCloseButton = !project.showCloseButton; //toggle
-    setTimeout(
-        ()=>{ project.showCloseButton = false }, 
-        2500);
-}
+    public showCloseButton(project: Project) {
+        project.showCloseButton = !project.showCloseButton; //toggle
+        setTimeout(
+            () => { project.showCloseButton = false },
+            2500);
+    }
 
 
     public isOtherMonth(day) {
