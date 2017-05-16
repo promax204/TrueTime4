@@ -15,8 +15,10 @@ import { Project, Day } from './trueTimeData';
     selector: 'test',
     styles: [`
   
-a.arrow {   text-decoration: none;  }
-.hide { display:none;   }
+a.arrow {   
+    text-decoration: none;  
+}
+.hide { display:none !important;   }
 .locked-hours {
     color: lightgrey;
     width: 6%;
@@ -81,7 +83,7 @@ a.arrow {   text-decoration: none;  }
 .boxbody{
     display:flex;
     width: 100%;
-    height:80px;
+    padding-bottom: 10px;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     border-bottom: 1px solid #cccccc;
     background-color: #ffffff;
@@ -205,9 +207,20 @@ ul, li {
     text-align:center;
 }
 .arrow {
-    text-align:initial;
     cursor:pointer;
-    color:#039 !important;
+    background-color: white;
+    color: #cccccc !important;
+    padding: 5px 10px 10px 5px;
+    border-radius: 50%;
+    height: 8px;
+    width: 8px;
+    vertical-align: top;
+    position: relative;
+    border-radius: 50%;
+    font-size: 20px;
+    color: #fff;
+    line-height: 10px;
+    text-align: center;
 }
 .project-labels {
     margin-top:4px;
@@ -294,7 +307,48 @@ ul, li {
     margin-top: 2px;
     margin-left: -3px;
 }
-.hide-me {  display:none;   }
+
+
+.goto {display:none}
+@media (max-width: 400px) {
+
+    .dayBox, .month-label, .weekDays, .workingHoursBox, .sum {
+        font-size:10px;
+    }
+    .weekDays {
+        width: 13%;
+        margin-left: 1%;
+    }
+    .workingHoursBox{
+        width: 9%;
+        height: 24px;
+        margin-left: 1%;
+    }
+    #sumWeek{
+        font-size: 12px;
+        left: 2.2%;
+    }  
+    .totalSumDay {
+        margin-right: 4.15%;
+        margin-left: 4.15%;
+        font-size: 12px;
+    }
+    .sum {
+        margin-top: 34px;
+    }
+
+    .boxheader {
+        height:100%;
+        padding-bottom: 5px;
+    }
+    .arrow {
+        margin:0px;
+    }
+
+
+}
+
+
   `],
     template: `
 
@@ -354,7 +408,7 @@ ul, li {
 
     <div  *ngIf="projectsService.projects?.length === 0" class="loading"></div>
 
-    <div class="boxbody" [class.hide-me]="project.hideProject" (click)="showCloseButton(project)"
+    <div class="boxbody" [class.hide]="project.hideProject" (click)="showCloseButton(project)"
         *ngFor="let project of projectsService.projects">
 
         <div class="row end">
