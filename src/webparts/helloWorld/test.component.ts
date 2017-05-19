@@ -472,6 +472,13 @@ ul, li {
         </div>
 
         <div class="row center buttons">
+
+            <div class="search-project">
+                <label>open project</label>
+                <input type="text" placeholder="open project" />
+            </div>
+
+
             <div class="dropdown" id="addProject">
                 <button class="projectButton">+ New Row</button>
 
