@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnInit, Inject } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, Inject} from '@angular/core';
 import { SPHttpClient, ISPHttpClientOptions, SPHttpClientResponse } from '@microsoft/sp-http';
 import { FormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
@@ -113,8 +113,8 @@ input::-webkit-inner-spin-button {
     margin: 0; 
 }
 .boxfooter{
+    min-height:70px;
     width: 100%;
-    height:75px;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     border: 1px solid #cccccc;
     border-radius: 5px;
@@ -187,7 +187,7 @@ ul, li {
     font-weight: bold;
 }
 .reportButton{
-    height:30px;
+    margin-right:10px !important;
     border-radius: 5px;
     color: #808080;
     background-color: #f9f9f9;
@@ -283,6 +283,8 @@ ul, li {
 .buttons button {
     margin-left:2px;
     margin-right:2px;
+    display:flex;
+    flex-direction:row;
 }
 .bottom-row {
     max-height:30px;
@@ -309,7 +311,6 @@ ul, li {
 }
 
 
-.goto {display:none}
 @media (max-width: 400px) {
 
     .dayBox, .month-label, .weekDays, .workingHoursBox, .sum {
@@ -347,6 +348,30 @@ ul, li {
 
 
 }
+
+.searched-project {
+    list-style: none;
+    background-color: #bdd1ff;
+    padding: 5px;
+    border-bottom:1px blue;
+}
+.list-of-searched-projects {
+    margin-bottom:10px;
+}
+.projects-label {
+    margin-right:5px;
+    text-align: center;
+}
+.search-project {
+    margin-top:4px;
+    display:flex;
+    flex-direction:column;
+}
+
+.list-of-searched-projects li {
+    cursor:pointer;
+}
+.css {dispplay:none}
 
 
   `],
@@ -471,14 +496,30 @@ ul, li {
             </div>
         </div>
 
-        <div class="row center buttons">
+        <div class="column center buttons">
+
+            
 
             <div class="search-project">
-                <label>open project</label>
-                <input type="text" placeholder="open project" />
+                <label class="projects-label">Open Project</label>
+                <input type="text" 
+                    (keyup)="filterProjects($event)" 
+                    [(ngModel)]="inputValue"
+                    (blur)="blurSearch($event)" />
+                <ul class="list-of-searched-projects">
+                    <li *ngFor="let project of filteredProjects; let i = index" 
+                        class="searched-project"
+                        (click)="selectItem(project)" 
+                        [hidden]="project.hideProject === false || i > 2">
+                        {{ project.name }}
+                    </li>
+                </ul>
             </div>
 
+            <button *ngIf="projectsService.projects?.length > 0" class="reportButton" (click)="userService.lockWeek(true, true)">Lock Week</button>
 
+
+            <!--
             <div class="dropdown" id="addProject">
                 <button class="projectButton">+ New Row</button>
 
@@ -490,8 +531,10 @@ ul, li {
                     </li>
                 </ul>
             </div>
+            -->
+            
             <!--<button *ngIf="projectsService.projects?.length > 0" class="saveButton" (click)="userService.save()">Save</button>-->
-            <button *ngIf="projectsService.projects?.length > 0" class="reportButton" (click)="userService.lockWeek(true, true)">Lock Week</button>
+            
         </div>
 
     </div>
@@ -500,7 +543,22 @@ ul, li {
 
 export class TestComponent implements OnInit {
 
-    public week: Array<any>;
+
+
+    public inputValue: any = "";
+
+    public filteredProjects: any;
+    public filterProjects(){
+        this.filteredProjects = [];
+        let searchString = this.inputValue.toLowerCase();
+        for (let item of this.projectsService.projects) {
+            if (item.name.toLowerCase().indexOf(searchString) !== -1) {
+                this.filteredProjects.push(item);
+            }
+        }
+    }
+
+
 
 
     public constructor(
@@ -508,9 +566,12 @@ export class TestComponent implements OnInit {
         @Inject(ListService) public listService: ListService,
         @Inject(ProjectsService) public projectsService: ProjectsService,
         @Inject(WeekService) public weekService: WeekService,
-        @Inject(UserService) public userService: UserService) {
-        console.log("this.decimalConfig()", this.decimalConfig());
+        @Inject(UserService) public userService: UserService){
+        console.log("test123..." );
+
     }
+
+    public week: Array<any>;
 
 
     public showCloseButton(project: Project) {
@@ -683,6 +744,7 @@ export class TestComponent implements OnInit {
             var splicedItem = this.projectsService.projects.splice(index, 1);
             this.projectsService.projects.push(splicedItem[0]);
         }
+        this.filteredProjects = []
     }
 
     public decimalConfig() {
