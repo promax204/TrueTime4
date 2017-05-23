@@ -187,11 +187,13 @@ ul, li {
     font-weight: bold;
 }
 .reportButton{
-    margin-right:10px !important;
     border-radius: 5px;
     color: #808080;
     background-color: #f9f9f9;
     font-weight: bold;
+    padding-left: 45%;
+    padding-right: 45%;
+    margin-bottom:10px;
 }
 .totalSumDay{
     color: #cccccc;
@@ -313,6 +315,11 @@ ul, li {
 
 @media (max-width: 400px) {
 
+    .reportButton{
+        padding-left: 40%;
+        padding-right: 40%;
+    }
+
     .dayBox, .month-label, .weekDays, .workingHoursBox, .sum {
         font-size:10px;
     }
@@ -355,6 +362,7 @@ ul, li {
     padding: 5px;
     border-bottom:1px blue;
 }
+
 .list-of-searched-projects {
     margin-bottom:10px;
 }
@@ -366,6 +374,11 @@ ul, li {
     margin-top:4px;
     display:flex;
     flex-direction:column;
+}
+.search-project input {
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .list-of-searched-projects li {
@@ -503,9 +516,9 @@ ul, li {
             <div class="search-project">
                 <label class="projects-label">Open Project</label>
                 <input type="text" 
+                    placeholder="project name..."
                     (keyup)="filterProjects($event)" 
-                    [(ngModel)]="inputValue"
-                    (blur)="blurSearch($event)" />
+                    [(ngModel)]="inputValue" />
                 <ul class="list-of-searched-projects">
                     <li *ngFor="let project of filteredProjects; let i = index" 
                         class="searched-project"
@@ -567,7 +580,6 @@ export class TestComponent implements OnInit {
         @Inject(ProjectsService) public projectsService: ProjectsService,
         @Inject(WeekService) public weekService: WeekService,
         @Inject(UserService) public userService: UserService){
-        console.log("test123..." );
 
     }
 
@@ -744,7 +756,7 @@ export class TestComponent implements OnInit {
             var splicedItem = this.projectsService.projects.splice(index, 1);
             this.projectsService.projects.push(splicedItem[0]);
         }
-        this.filteredProjects = []
+        this.filteredProjects = [];
     }
 
     public decimalConfig() {
